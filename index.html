@@ -482,43 +482,6 @@
       border-color: #d93025;
       box-shadow: 0 0 0 2px rgba(217, 48, 37, .08);
     }
-    .dock-plan-switch {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin: -4px 0 24px;
-    }
-    .dock-plan-tab {
-      min-height: 62px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
-      padding: 10px 12px;
-      text-align: left;
-      display: grid;
-      gap: 4px;
-      cursor: pointer;
-      transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
-    }
-    .dock-plan-tab:hover {
-      border-color: #9acedd;
-      background: #f8fdff;
-    }
-    .dock-plan-tab.active {
-      border-color: #47acc7;
-      background: #f0fbfe;
-      box-shadow: 0 0 0 3px rgba(22,126,160,.08);
-    }
-    .dock-plan-tab b {
-      color: #111827;
-      font-size: 14px;
-      line-height: 20px;
-    }
-    .dock-plan-tab span {
-      color: #657385;
-      font-size: 12px;
-      line-height: 18px;
-    }
     .entity-list {
       display: grid;
       gap: 16px;
@@ -1818,7 +1781,7 @@
       .side { display: none; }
       .catalog { grid-template-columns: 1fr; padding: 16px; }
       .infer-layout, .builder-view, .fine-grid, .dock-result-grid { grid-template-columns: 1fr; }
-      .dock-plan-switch, .entity-config { grid-template-columns: 1fr; }
+      .entity-config { grid-template-columns: 1fr; }
       .detail-head.split, .task-hero, .hub-overview, .metric-grid, .info-grid { grid-template-columns: 1fr; }
       .input-pane { border-right: 0; padding-right: 0; }
       .builder-content { padding: 22px 18px 172px; }
@@ -1926,7 +1889,7 @@
           <article class="model-card" data-open-model="abdock-entity">
             <div class="model-hero hero-dock"><div class="protein-line"></div><div class="hero-title">Entity<br>Dock Input</div></div>
             <div class="model-row"><span class="model-name">xTrimoAbAgDock</span><span class="version">新入参方案</span><span class="status">原型</span></div>
-            <p class="model-desc">在原有序列输入基础上，按实体声明实体类型、化学计量和序列，适合表达蛋白质、多肽、DNA、RNA、离子、配体等复合物组成。</p>
+            <p class="model-desc">以 VH 序列、VL 序列和可追加的抗原单链序列实体提交推理任务；实体类型限定为蛋白质，并支持为抗原配置化学计量。</p>
             <span class="tag">结构</span><span class="tag green">实体建模</span>
           </article>
           <article class="model-card" data-open-model="vhh">
@@ -2237,7 +2200,7 @@
         name: 'xTrimoAbAgDock',
         tag: '结构',
         updated: '新入参方案原型',
-        desc: '预测抗体 Fv 抗原复合物的三维结构。本原型在经典 VH、VL、抗原链输入基础上，增加实体类型和化学计量配置，用于表达更完整的复合物组成。'
+        desc: '预测抗体 Fv 抗原复合物的三维结构。本原型将 xTrimoAbAgDock 入参组织为 VH 序列、VL 序列和抗原单链序列实体；所有实体类型限定为蛋白质，抗原实体支持配置化学计量。'
       },
       vhh: {
         name: 'xTrimoVHHAgDock',
@@ -2568,52 +2531,41 @@
       <div class="counter" data-sequence-counter>AA：0/${max}</div>`;
     }
 
-    const entityTypeOptions = [
-      ['protein', '蛋白质'],
-      ['peptide', '多肽'],
-      ['dna', 'DNA'],
-      ['rna', 'RNA'],
-      ['ion', '离子'],
-      ['ligand', '配体']
-    ];
+    const entityTypeOptions = [['protein', '蛋白质']];
 
     const entityDefaults = [
-      { type: 'protein', stoich: 1, role: 'VH', value: 'EVQLVESGGGLVQPGGSLRLSCAASGFTFSSYAMSWVRQAPGKGLEWVSAISGSGGSTYYADSVKGRFTISRDNSKNTLYLQMNSLRAEDTAVYYCAR' },
-      { type: 'protein', stoich: 1, role: 'VL', value: 'DIQMTQSPSSLSASVGDRVTITCRASQGISSWLAWYQQKPGKAPKLLIYAASSLQSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQYNSYPYTFGQGTKVEIK' },
-      { type: 'protein', stoich: 1, role: 'AG', value: 'MHHHHHHSSGVDLGTENLYFQSNAMKLTQLGTVLDFTKKSDGTPVYVLLPPGQSFQFWAQGDLNGKSLKDLMNELGK' }
+      { title: 'VH 序列', role: 'vh', type: 'protein', stoich: 1, lockStoich: true, removable: false, value: 'EVQLVESGGGLVQPGGSLRLSCAASGFTFSSYAMSWVRQAPGKGLEWVSAISGSGGSTYYADSVKGRFTISRDNSKNTLYLQMNSLRAEDTAVYYCAR' },
+      { title: 'VL 序列', role: 'vl', type: 'protein', stoich: 1, lockStoich: true, removable: false, value: 'DIQMTQSPSSLSASVGDRVTITCRASQGISSWLAWYQQKPGKAPKLLIYAASSLQSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQYNSYPYTFGQGTKVEIK' },
+      { title: '抗原单链序列', role: 'antigen', type: 'protein', stoich: 1, lockStoich: false, removable: false, value: 'MHHHHHHSSGVDLGTENLYFQSNAMKLTQLGTVLDFTKKSDGTPVYVLLPPGQSFQFWAQGDLNGKSLKDLMNELGK' }
     ];
 
     function entityTypeSelect(value){
-      return `<div class="select-wrap"><select data-entity-type aria-label="实体类型">${entityTypeOptions.map(([key,label]) => `<option value="${key}" ${key === value ? 'selected' : ''}>${label}</option>`).join('')}</select><i data-lucide="chevron-down"></i></div>`;
+      return `<div class="select-wrap"><select data-entity-type aria-label="实体类型" disabled>${entityTypeOptions.map(([key,label]) => `<option value="${key}" ${key === value ? 'selected' : ''}>${label}</option>`).join('')}</select><i data-lucide="chevron-down"></i></div>`;
     }
 
-    function entityPlaceholder(type){
-      if (type === 'dna') return '粘贴 DNA 序列，如 ATGCGT...';
-      if (type === 'rna') return '粘贴 RNA 序列，如 AUGCGU...';
-      if (type === 'ion') return '输入离子名称或符号，如 CA、ZN、MG';
-      if (type === 'ligand') return '输入配体 ID、SMILES 或名称';
-      if (type === 'peptide') return '粘贴多肽序列，如 QVQLV...';
-      return '粘贴序列（单字母编码如 QVQLV...）';
+    function entityPlaceholder(role){
+      if (role === 'vh') return '粘贴 VH 序列（单字母编码如 QVQLV...）';
+      if (role === 'vl') return '粘贴 VL 序列（单字母编码如 DIQMT...）';
+      return '粘贴抗原单链序列（单字母编码如 MHHHH...）';
     }
 
-    function entityUnit(type){
-      return (type === 'ion' || type === 'ligand') ? 'Token' : 'AA';
+    function entityUnit(){
+      return 'AA';
     }
 
-    function entityTokenLength(value, type){
-      const text = value.trim();
-      if (!text) return 0;
-      if (type === 'ion' || type === 'ligand') return 1;
-      return text.replace(/\s+/g, '').length;
+    function entityTokenLength(value){
+      return value.trim().replace(/\s+/g, '').length;
     }
 
-    function entityCardNode(index, entity, removable=true){
+    function entityCardNode(index, entity){
       const type = entity.type || 'protein';
-      const unit = entityUnit(type);
-      const count = entityTokenLength(entity.value || '', type);
-      return `<div class="entity-card" data-entity-card>
+      const unit = entityUnit();
+      const count = entityTokenLength(entity.value || '');
+      const removable = Boolean(entity.removable);
+      const locked = Boolean(entity.lockStoich);
+      return `<div class="entity-card" data-entity-card data-entity-role="${escapeHtml(entity.role || 'antigen')}" data-lock-stoich="${locked}">
         <div class="entity-head">
-          <div class="entity-title">实体 ${index}</div>
+          <div class="entity-title">${escapeHtml(entity.title || `抗原单链序列 ${index}`)}</div>
           <button type="button" class="entity-remove" data-remove-entity ${removable ? '' : 'disabled'} aria-label="删除实体 ${index}"><i data-lucide="trash-2"></i></button>
         </div>
         <div class="entity-config">
@@ -2623,11 +2575,11 @@
           </div>
           <div class="entity-control">
             <label>化学计量</label>
-            <input class="stoich-input" data-stoich type="number" min="1" max="99" value="${Number(entity.stoich || 1)}" aria-label="实体 ${index} 化学计量">
+            <input class="stoich-input" data-stoich type="number" min="1" max="99" value="${Number(entity.stoich || 1)}" ${locked ? 'disabled' : ''} aria-label="${escapeHtml(entity.title || `实体 ${index}`)} 化学计量">
           </div>
         </div>
         <div class="entity-sequence">
-          <textarea data-entity-sequence aria-label="实体 ${index} 序列或描述" placeholder="${escapeHtml(entityPlaceholder(type))}">${escapeHtml(entity.value || '')}</textarea>
+          <textarea data-entity-sequence aria-label="${escapeHtml(entity.title || `实体 ${index}`)}" placeholder="${escapeHtml(entityPlaceholder(entity.role || 'antigen'))}">${escapeHtml(entity.value || '')}</textarea>
           <div class="entity-meta"><span class="field-error" data-entity-error hidden></span><span data-entity-counter>${unit}:${count}/500</span></div>
         </div>
       </div>`;
@@ -2635,10 +2587,10 @@
 
     function entityScheme(){
       return `<div id="entityScheme">
-        <p class="scheme-note">新方案按“实体”描述复合物组成。每个实体需要声明实体类型、化学计量和序列或标识；旧的 VH / VL / 抗原链输入仍保留在“经典方案”中。</p>
-        <div class="entity-list" id="entityList">${entityDefaults.map((entity, index) => entityCardNode(index + 1, entity, index > 1)).join('')}</div>
+        <p class="scheme-note">xTrimoAbAgDock 新方案固定包含 VH 序列、VL 序列和至少 1 条抗原单链序列。所有实体类型均限定为蛋白质；VH / VL 的化学计量固定为 1，抗原单链序列可配置化学计量并继续添加。</p>
+        <div class="entity-list" id="entityList">${entityDefaults.map((entity, index) => entityCardNode(index + 1, entity)).join('')}</div>
         <div class="entity-token-bar">
-          <button type="button" class="add-chain" id="addEntity"><i data-lucide="plus"></i>添加实体</button>
+          <button type="button" class="add-chain" id="addEntity"><i data-lucide="plus"></i>添加抗原实体</button>
           <span id="entityTokenTotal">当前 Token 数：0 / 2048</span>
         </div>
       </div>`;
@@ -2657,10 +2609,6 @@
       const useEntityScheme = key === 'abdock-entity';
       return `<div class="infer-layout">
         <section class="input-pane">${baseInputHeader(false)}
-          ${isVhh ? '' : `<div class="dock-plan-switch" role="tablist" aria-label="xTrimoAbAgDock 入参方案">
-            <button type="button" class="dock-plan-tab ${useEntityScheme ? '' : 'active'}" data-scheme="legacy" role="tab" aria-selected="${!useEntityScheme}"><b>经典方案</b><span>VH / VL / 抗原链输入</span></button>
-            <button type="button" class="dock-plan-tab ${useEntityScheme ? 'active' : ''}" data-scheme="entity" role="tab" aria-selected="${useEntityScheme}"><b>新方案</b><span>实体类型 + 化学计量</span></button>
-          </div>`}
           <div id="dockSchemeHost">${useEntityScheme && !isVhh ? entityScheme() : legacyDockScheme(isVhh)}</div>
           <div class="form-field pdb-field" id="agPdb"><div class="pdb-supplement"><div class="pdb-supplement-head"><div><div class="pdb-supplement-title"><i data-lucide="box"></i>抗原 PDB 参考结构 <span class="optional-label">可选</span></div><p class="pdb-supplement-desc">用于补充说明抗原 FASTA 序列的参考结构。</p></div></div><div class="upload pdb-upload" id="pdbUploadBox"><div class="upload-copy"><i data-lucide="upload-cloud"></i><p class="upload-title">拖拽或点击上传 PDB 文件</p><p class="upload-hint">支持 .pdb 单文件。未上传时仍可直接提交序列任务。</p></div></div><div class="file-line pdb-file-line" id="pdbFileLine" hidden><span class="pdb-file-name">${isVhh?'vhhag_reference.pdb':'abag_reference.pdb'}</span><span class="file-actions"><button type="button" class="link" id="removePdbFile">移除</button><i data-lucide="download"></i></span></div></div></div>
           <div style="margin:22px 0;">Email进度通知 <span class="switch"></span></div><button class="generate" id="runDock">生 成</button>
@@ -2778,13 +2726,14 @@
       const error = card.querySelector('[data-entity-error]');
       const counter = card.querySelector('[data-entity-counter]');
       const value = textarea.value.trim();
-      const tokenLength = entityTokenLength(value, type);
-      const unit = entityUnit(type);
+      const tokenLength = entityTokenLength(value);
+      const unit = entityUnit();
       let message = '';
-      if (force && !value) message = type === 'ion' || type === 'ligand' ? '请输入实体名称或标识' : 'This field is required';
+      if (force && !value) message = 'This field is required';
       else if (Number(stoich.value) < 1) message = '化学计量需大于 0';
-      else if ((type === 'protein' || type === 'peptide') && value.includes('>')) message = '请去掉序列头';
-      else if (tokenLength > 500 && type !== 'ion' && type !== 'ligand') message = '序列长度不可超过 500';
+      else if (type !== 'protein') message = '实体类型仅支持蛋白质';
+      else if (value.includes('>')) message = '请去掉序列头';
+      else if (tokenLength > 500) message = '序列长度不可超过 500';
       counter.textContent = `${unit}:${tokenLength}/500`;
       error.textContent = message;
       error.hidden = !message;
@@ -2809,12 +2758,20 @@
     }
 
     function renumberEntities(){
-      document.querySelectorAll('#entityList [data-entity-card]').forEach((card, index) => {
-        const number = index + 1;
-        card.querySelector('.entity-title').textContent = `实体 ${number}`;
-        card.querySelector('[data-remove-entity]').setAttribute('aria-label', `删除实体 ${number}`);
-        card.querySelector('[data-stoich]').setAttribute('aria-label', `实体 ${number} 化学计量`);
-        card.querySelector('[data-entity-sequence]').setAttribute('aria-label', `实体 ${number} 序列或描述`);
+      let antigenIndex = 0;
+      document.querySelectorAll('#entityList [data-entity-card]').forEach((card) => {
+        const role = card.dataset.entityRole;
+        let title = '抗原单链序列';
+        if (role === 'vh') title = 'VH 序列';
+        else if (role === 'vl') title = 'VL 序列';
+        else {
+          antigenIndex += 1;
+          title = antigenIndex === 1 ? '抗原单链序列' : `抗原单链序列 ${antigenIndex}`;
+        }
+        card.querySelector('.entity-title').textContent = title;
+        card.querySelector('[data-remove-entity]').setAttribute('aria-label', `删除${title}`);
+        card.querySelector('[data-stoich]').setAttribute('aria-label', `${title} 化学计量`);
+        card.querySelector('[data-entity-sequence]').setAttribute('aria-label', title);
       });
     }
 
@@ -2834,7 +2791,8 @@
       const textarea = card.querySelector('[data-entity-sequence]');
       const stoich = card.querySelector('[data-stoich]');
       const refresh = () => {
-        textarea.placeholder = entityPlaceholder(typeSelect.value);
+        textarea.placeholder = entityPlaceholder(card.dataset.entityRole || 'antigen');
+        if (card.dataset.lockStoich === 'true') stoich.value = 1;
         validateEntityCard(card, false);
         updateEntityTotal();
       };
@@ -2856,8 +2814,8 @@
       if (!list || !add) return;
       list.querySelectorAll('[data-entity-card]').forEach(bindEntityCard);
       add.onclick = () => {
-        const next = list.querySelectorAll('[data-entity-card]').length + 1;
-        list.insertAdjacentHTML('beforeend', entityCardNode(next, { type: 'protein', stoich: 1, value: '' }, true));
+        const antigenCount = list.querySelectorAll('[data-entity-role="antigen"]').length + 1;
+        list.insertAdjacentHTML('beforeend', entityCardNode(list.querySelectorAll('[data-entity-card]').length + 1, { title: `抗原单链序列 ${antigenCount}`, role: 'antigen', type: 'protein', stoich: 1, lockStoich: false, removable: true, value: '' }));
         const card = list.querySelector('[data-entity-card]:last-child');
         bindEntityCard(card);
         renumberEntities();
@@ -2873,20 +2831,6 @@
       const upload = document.getElementById('pdbUploadBox');
       const fileLine = document.getElementById('pdbFileLine');
       const removeFile = document.getElementById('removePdbFile');
-      document.querySelectorAll('.dock-plan-tab').forEach(tab => {
-        tab.onclick = () => {
-          const host = document.getElementById('dockSchemeHost');
-          const useEntity = tab.dataset.scheme === 'entity';
-          document.querySelectorAll('.dock-plan-tab').forEach(item => {
-            const active = item === tab;
-            item.classList.toggle('active', active);
-            item.setAttribute('aria-selected', String(active));
-          });
-          host.innerHTML = useEntity ? entityScheme() : legacyDockScheme(false);
-          useEntity ? wireEntityScheme() : wireLegacyDockScheme();
-          refreshIcons();
-        };
-      });
       wireEntityScheme();
       wireLegacyDockScheme();
       if (upload) {
