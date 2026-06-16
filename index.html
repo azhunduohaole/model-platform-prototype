@@ -1879,7 +1879,7 @@
           <article class="model-card" data-open-model="abdock-entity">
             <div class="model-hero hero-dock"><div class="protein-line"></div><div class="hero-title">Entity<br>Dock Input</div></div>
             <div class="model-row"><span class="model-name">xTrimoAbAgDock</span><span class="version">新入参方案</span><span class="status">原型</span></div>
-            <p class="model-desc">以 VH 序列、VL 序列和可追加的抗原单链序列实体提交推理任务；实体类型限定为蛋白质，并支持为抗原配置化学计量。</p>
+            <p class="model-desc">以重链可变区（VH）、轻链可变区（VL）和可追加的抗原单链序列实体提交推理任务；实体类型限定为蛋白质，并支持为抗原配置化学计量。</p>
             <span class="tag">结构</span><span class="tag green">实体建模</span>
           </article>
           <article class="model-card" data-open-model="vhh">
@@ -2190,7 +2190,7 @@
         name: 'xTrimoAbAgDock',
         tag: '结构',
         updated: '新入参方案原型',
-        desc: '预测抗体 Fv 抗原复合物的三维结构。本原型将 xTrimoAbAgDock 入参组织为 VH 序列、VL 序列和抗原单链序列实体；所有实体类型限定为蛋白质，抗原实体支持配置化学计量。'
+        desc: '预测抗体 Fv 抗原复合物的三维结构。本原型将 xTrimoAbAgDock 入参组织为重链可变区（VH）、轻链可变区（VL）和抗原单链序列实体；所有实体类型限定为蛋白质，抗原实体支持配置化学计量。'
       },
       vhh: {
         name: 'xTrimoVHHAgDock',
@@ -2524,8 +2524,8 @@
     const entityTypeOptions = [['protein', '蛋白质']];
 
     const entityDefaults = [
-      { title: 'VH 序列', role: 'vh', type: 'protein', stoich: 1, lockStoich: true, removable: false, value: 'EVQLVESGGGLVQPGGSLRLSCAASGFTFSSYAMSWVRQAPGKGLEWVSAISGSGGSTYYADSVKGRFTISRDNSKNTLYLQMNSLRAEDTAVYYCAR' },
-      { title: 'VL 序列', role: 'vl', type: 'protein', stoich: 1, lockStoich: true, removable: false, value: 'DIQMTQSPSSLSASVGDRVTITCRASQGISSWLAWYQQKPGKAPKLLIYAASSLQSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQYNSYPYTFGQGTKVEIK' },
+      { title: '重链可变区（VH）', role: 'vh', type: 'protein', stoich: 1, lockStoich: true, removable: false, value: 'EVQLVESGGGLVQPGGSLRLSCAASGFTFSSYAMSWVRQAPGKGLEWVSAISGSGGSTYYADSVKGRFTISRDNSKNTLYLQMNSLRAEDTAVYYCAR' },
+      { title: '轻链可变区（VL）', role: 'vl', type: 'protein', stoich: 1, lockStoich: true, removable: false, value: 'DIQMTQSPSSLSASVGDRVTITCRASQGISSWLAWYQQKPGKAPKLLIYAASSLQSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQYNSYPYTFGQGTKVEIK' },
       { title: '抗原单链序列', role: 'antigen', type: 'protein', stoich: 1, lockStoich: false, removable: false, value: 'MHHHHHHSSGVDLGTENLYFQSNAMKLTQLGTVLDFTKKSDGTPVYVLLPPGQSFQFWAQGDLNGKSLKDLMNELGK' }
     ];
 
@@ -2534,8 +2534,8 @@
     }
 
     function entityPlaceholder(role){
-      if (role === 'vh') return '粘贴 VH 序列（单字母编码如 QVQLV...）';
-      if (role === 'vl') return '粘贴 VL 序列（单字母编码如 DIQMT...）';
+      if (role === 'vh') return '粘贴重链可变区（VH）序列（单字母编码如 QVQLV...）';
+      if (role === 'vl') return '粘贴轻链可变区（VL）序列（单字母编码如 DIQMT...）';
       return '粘贴抗原单链序列（单字母编码如 MHHHH...）';
     }
 
@@ -2587,7 +2587,7 @@
 
     function legacyDockScheme(isVhh){
       return `<div id="legacyDockScheme">
-        <div class="form-field"><div class="label required">${isVhh?'VHH 序列':'重链可变区（VH）'}</div>${sequenceInputNode({id:'vhInput', placeholder:isVhh?'>VHH':'>VH', value:'EVQLVESGGGLVQPGGSLRLSCAASGFTFSSYAMSWVRQAPGKGLEWVSAISGSGGSTYYADSVKGRFTISRDNSKNTLYLQMNSLRAEDTAVYYCAR', ariaLabel:isVhh?'VHH 序列':'重链可变区（VH）序列'})}</div>
+        <div class="form-field"><div class="label required">${isVhh?'重链抗体可变区（VHH）':'重链可变区（VH）'}</div>${sequenceInputNode({id:'vhInput', placeholder:isVhh?'>VHH':'>VH', value:'EVQLVESGGGLVQPGGSLRLSCAASGFTFSSYAMSWVRQAPGKGLEWVSAISGSGGSTYYADSVKGRFTISRDNSKNTLYLQMNSLRAEDTAVYYCAR', ariaLabel:isVhh?'重链抗体可变区（VHH）序列':'重链可变区（VH）序列'})}</div>
         <div class="form-field" id="vlBox" ${isVhh?'hidden':''}><div class="label required">轻链可变区（VL）</div>${sequenceInputNode({placeholder:'>VL', value:'DIQMTQSPSSLSASVGDRVTITCRASQGISSWLAWYQQKPGKAPKLLIYAASSLQSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQYNSYPYTFGQGTKVEIK', ariaLabel:'轻链可变区（VL）序列'})}</div>
         <div class="form-field" id="agFasta"><div class="chain-list" id="agChainList">${agChainNode(1, true, 'MHHHHHHSSGVDLGTENLYFQSNAMKLTQLGTVLDFTKKSDGTPVYVLLPPGQSFQFWAQGDLNGKSLKDLMNELGK')}</div><button type="button" class="add-chain" id="addAgChain"><i data-lucide="plus"></i>添加抗原链</button></div>
       </div>`;
@@ -2751,8 +2751,8 @@
       document.querySelectorAll('#entityList [data-entity-card]').forEach((card) => {
         const role = card.dataset.entityRole;
         let title = '抗原单链序列';
-        if (role === 'vh') title = 'VH 序列';
-        else if (role === 'vl') title = 'VL 序列';
+        if (role === 'vh') title = '重链可变区（VH）';
+        else if (role === 'vl') title = '轻链可变区（VL）';
         else {
           antigenIndex += 1;
           title = antigenIndex === 1 ? '抗原单链序列' : `抗原单链序列 ${antigenIndex}`;
