@@ -616,16 +616,6 @@
       color: #167ea0;
       background: #f6fcff;
     }
-    .scheme-note {
-      border: 1px solid #d8eef5;
-      border-radius: 8px;
-      background: #f4fbfd;
-      padding: 12px 14px;
-      color: #42616f;
-      font-size: 13px;
-      line-height: 1.7;
-      margin: 0 0 22px;
-    }
     .form-field.has-error .sequence-box {
       border-color: #d93025;
       box-shadow: 0 0 0 2px rgba(217, 48, 37, .08);
@@ -2587,7 +2577,6 @@
 
     function entityScheme(){
       return `<div id="entityScheme">
-        <p class="scheme-note">xTrimoAbAgDock 新方案固定包含 VH 序列、VL 序列和至少 1 条抗原单链序列。所有实体类型均限定为蛋白质；VH / VL 的化学计量固定为 1，抗原单链序列可配置化学计量并继续添加。</p>
         <div class="entity-list" id="entityList">${entityDefaults.map((entity, index) => entityCardNode(index + 1, entity)).join('')}</div>
         <div class="entity-token-bar">
           <button type="button" class="add-chain" id="addEntity"><i data-lucide="plus"></i>添加抗原实体</button>
