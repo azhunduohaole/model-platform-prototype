@@ -482,6 +482,187 @@
       border-color: #d93025;
       box-shadow: 0 0 0 2px rgba(217, 48, 37, .08);
     }
+    .dock-plan-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: -4px 0 24px;
+    }
+    .dock-plan-tab {
+      min-height: 62px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px 12px;
+      text-align: left;
+      display: grid;
+      gap: 4px;
+      cursor: pointer;
+      transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+    .dock-plan-tab:hover {
+      border-color: #9acedd;
+      background: #f8fdff;
+    }
+    .dock-plan-tab.active {
+      border-color: #47acc7;
+      background: #f0fbfe;
+      box-shadow: 0 0 0 3px rgba(22,126,160,.08);
+    }
+    .dock-plan-tab b {
+      color: #111827;
+      font-size: 14px;
+      line-height: 20px;
+    }
+    .dock-plan-tab span {
+      color: #657385;
+      font-size: 12px;
+      line-height: 18px;
+    }
+    .entity-list {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    .entity-card {
+      border: 1px solid #d8dee5;
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+      transition: border-color .18s ease, box-shadow .18s ease;
+    }
+    .entity-card:focus-within {
+      border-color: #47acc7;
+      box-shadow: 0 0 0 3px rgba(22,126,160,.08);
+    }
+    .entity-card.has-error {
+      border-color: #d93025;
+      box-shadow: 0 0 0 2px rgba(217,48,37,.08);
+    }
+    .entity-head {
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfd;
+    }
+    .entity-title {
+      color: #111827;
+      font-size: 17px;
+      font-weight: 700;
+    }
+    .entity-remove {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      display: inline-grid;
+      place-items: center;
+      color: #b5bec8;
+      cursor: pointer;
+    }
+    .entity-remove:hover {
+      color: #ef4444;
+      background: #fff1f0;
+    }
+    .entity-remove[disabled] {
+      opacity: .38;
+      cursor: not-allowed;
+      background: transparent;
+      color: #c7cdd4;
+    }
+    .entity-remove svg { width: 18px; height: 18px; }
+    .entity-config {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 148px;
+      gap: 14px;
+      padding: 16px 16px 10px;
+    }
+    .entity-control {
+      display: grid;
+      gap: 8px;
+    }
+    .entity-control label {
+      color: #374151;
+      font-weight: 600;
+      line-height: 20px;
+    }
+    .select-wrap {
+      position: relative;
+    }
+    .select-wrap select {
+      min-height: 44px;
+      appearance: none;
+      padding-right: 40px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .select-wrap svg {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      width: 18px;
+      height: 18px;
+      color: #9aa6b2;
+      pointer-events: none;
+      transform: translateY(-50%);
+    }
+    .stoich-input {
+      min-height: 44px !important;
+      font-size: 16px;
+      text-align: center;
+    }
+    .entity-sequence {
+      padding: 10px 16px 14px;
+    }
+    .entity-sequence textarea {
+      min-height: 86px;
+      border-radius: 7px;
+      font-size: 14px;
+    }
+    .entity-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      min-height: 24px;
+      margin-top: 6px;
+      color: #7b8794;
+      font-size: 12px;
+    }
+    .entity-token-bar {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 12px 0 26px;
+      color: #5f6b77;
+      font-size: 15px;
+    }
+    .entity-token-bar .add-chain {
+      min-height: 44px;
+      padding: 0 18px;
+      border: 1px dashed #cfd8e2;
+      color: #111827;
+      background: #fff;
+    }
+    .entity-token-bar .add-chain:hover {
+      border-color: #8fcbd8;
+      color: #167ea0;
+      background: #f6fcff;
+    }
+    .scheme-note {
+      border: 1px solid #d8eef5;
+      border-radius: 8px;
+      background: #f4fbfd;
+      padding: 12px 14px;
+      color: #42616f;
+      font-size: 13px;
+      line-height: 1.7;
+      margin: 0 0 22px;
+    }
     .form-field.has-error .sequence-box {
       border-color: #d93025;
       box-shadow: 0 0 0 2px rgba(217, 48, 37, .08);
@@ -1637,6 +1818,7 @@
       .side { display: none; }
       .catalog { grid-template-columns: 1fr; padding: 16px; }
       .infer-layout, .builder-view, .fine-grid, .dock-result-grid { grid-template-columns: 1fr; }
+      .dock-plan-switch, .entity-config { grid-template-columns: 1fr; }
       .detail-head.split, .task-hero, .hub-overview, .metric-grid, .info-grid { grid-template-columns: 1fr; }
       .input-pane { border-right: 0; padding-right: 0; }
       .builder-content { padding: 22px 18px 172px; }
@@ -1739,7 +1921,13 @@
             <div class="model-hero hero-dock"><div class="protein-line"></div></div>
             <div class="model-row"><span class="model-name">xTrimoAbAgDock</span><span class="version">V1.0</span><span class="status">已上线</span></div>
             <p class="model-desc">预测抗体 Fv 抗原复合物的三维结构。Accuracy：在 DockQ 中比 AlphaFold2 的准确性高 300%。</p>
-            <span class="tag">结构</span><span class="tag">抗体</span>
+            <span class="tag">结构</span><span class="tag">经典入参</span>
+          </article>
+          <article class="model-card" data-open-model="abdock-entity">
+            <div class="model-hero hero-dock"><div class="protein-line"></div><div class="hero-title">Entity<br>Dock Input</div></div>
+            <div class="model-row"><span class="model-name">xTrimoAbAgDock</span><span class="version">新入参方案</span><span class="status">原型</span></div>
+            <p class="model-desc">在原有序列输入基础上，按实体声明实体类型、化学计量和序列，适合表达蛋白质、多肽、DNA、RNA、离子、配体等复合物组成。</p>
+            <span class="tag">结构</span><span class="tag green">实体建模</span>
           </article>
           <article class="model-card" data-open-model="vhh">
             <div class="model-hero hero-vhh"><div class="protein-line"></div></div>
@@ -2044,6 +2232,12 @@
         tag: '结构',
         updated: '更新于 2024-06-04 11:26:45',
         desc: '预测抗体 Fv 抗原复合物的三维结构。Accuracy：在 DockQ 中比 AlphaFold2 的准确性高 300%。速度：与 AlphaFold2 不相上下。'
+      },
+      'abdock-entity': {
+        name: 'xTrimoAbAgDock',
+        tag: '结构',
+        updated: '新入参方案原型',
+        desc: '预测抗体 Fv 抗原复合物的三维结构。本原型在经典 VH、VL、抗原链输入基础上，增加实体类型和化学计量配置，用于表达更完整的复合物组成。'
       },
       vhh: {
         name: 'xTrimoVHHAgDock',
@@ -2374,13 +2568,100 @@
       <div class="counter" data-sequence-counter>AA：0/${max}</div>`;
     }
 
+    const entityTypeOptions = [
+      ['protein', '蛋白质'],
+      ['peptide', '多肽'],
+      ['dna', 'DNA'],
+      ['rna', 'RNA'],
+      ['ion', '离子'],
+      ['ligand', '配体']
+    ];
+
+    const entityDefaults = [
+      { type: 'protein', stoich: 1, role: 'VH', value: 'EVQLVESGGGLVQPGGSLRLSCAASGFTFSSYAMSWVRQAPGKGLEWVSAISGSGGSTYYADSVKGRFTISRDNSKNTLYLQMNSLRAEDTAVYYCAR' },
+      { type: 'protein', stoich: 1, role: 'VL', value: 'DIQMTQSPSSLSASVGDRVTITCRASQGISSWLAWYQQKPGKAPKLLIYAASSLQSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQYNSYPYTFGQGTKVEIK' },
+      { type: 'protein', stoich: 1, role: 'AG', value: 'MHHHHHHSSGVDLGTENLYFQSNAMKLTQLGTVLDFTKKSDGTPVYVLLPPGQSFQFWAQGDLNGKSLKDLMNELGK' }
+    ];
+
+    function entityTypeSelect(value){
+      return `<div class="select-wrap"><select data-entity-type aria-label="实体类型">${entityTypeOptions.map(([key,label]) => `<option value="${key}" ${key === value ? 'selected' : ''}>${label}</option>`).join('')}</select><i data-lucide="chevron-down"></i></div>`;
+    }
+
+    function entityPlaceholder(type){
+      if (type === 'dna') return '粘贴 DNA 序列，如 ATGCGT...';
+      if (type === 'rna') return '粘贴 RNA 序列，如 AUGCGU...';
+      if (type === 'ion') return '输入离子名称或符号，如 CA、ZN、MG';
+      if (type === 'ligand') return '输入配体 ID、SMILES 或名称';
+      if (type === 'peptide') return '粘贴多肽序列，如 QVQLV...';
+      return '粘贴序列（单字母编码如 QVQLV...）';
+    }
+
+    function entityUnit(type){
+      return (type === 'ion' || type === 'ligand') ? 'Token' : 'AA';
+    }
+
+    function entityTokenLength(value, type){
+      const text = value.trim();
+      if (!text) return 0;
+      if (type === 'ion' || type === 'ligand') return 1;
+      return text.replace(/\s+/g, '').length;
+    }
+
+    function entityCardNode(index, entity, removable=true){
+      const type = entity.type || 'protein';
+      const unit = entityUnit(type);
+      const count = entityTokenLength(entity.value || '', type);
+      return `<div class="entity-card" data-entity-card>
+        <div class="entity-head">
+          <div class="entity-title">实体 ${index}</div>
+          <button type="button" class="entity-remove" data-remove-entity ${removable ? '' : 'disabled'} aria-label="删除实体 ${index}"><i data-lucide="trash-2"></i></button>
+        </div>
+        <div class="entity-config">
+          <div class="entity-control">
+            <label>实体类型</label>
+            ${entityTypeSelect(type)}
+          </div>
+          <div class="entity-control">
+            <label>化学计量</label>
+            <input class="stoich-input" data-stoich type="number" min="1" max="99" value="${Number(entity.stoich || 1)}" aria-label="实体 ${index} 化学计量">
+          </div>
+        </div>
+        <div class="entity-sequence">
+          <textarea data-entity-sequence aria-label="实体 ${index} 序列或描述" placeholder="${escapeHtml(entityPlaceholder(type))}">${escapeHtml(entity.value || '')}</textarea>
+          <div class="entity-meta"><span class="field-error" data-entity-error hidden></span><span data-entity-counter>${unit}:${count}/500</span></div>
+        </div>
+      </div>`;
+    }
+
+    function entityScheme(){
+      return `<div id="entityScheme">
+        <p class="scheme-note">新方案按“实体”描述复合物组成。每个实体需要声明实体类型、化学计量和序列或标识；旧的 VH / VL / 抗原链输入仍保留在“经典方案”中。</p>
+        <div class="entity-list" id="entityList">${entityDefaults.map((entity, index) => entityCardNode(index + 1, entity, index > 1)).join('')}</div>
+        <div class="entity-token-bar">
+          <button type="button" class="add-chain" id="addEntity"><i data-lucide="plus"></i>添加实体</button>
+          <span id="entityTokenTotal">当前 Token 数：0 / 2048</span>
+        </div>
+      </div>`;
+    }
+
+    function legacyDockScheme(isVhh){
+      return `<div id="legacyDockScheme">
+        <div class="form-field"><div class="label required">${isVhh?'VHH 序列':'重链可变区（VH）'}</div>${sequenceInputNode({id:'vhInput', placeholder:isVhh?'>VHH':'>VH', value:'EVQLVESGGGLVQPGGSLRLSCAASGFTFSSYAMSWVRQAPGKGLEWVSAISGSGGSTYYADSVKGRFTISRDNSKNTLYLQMNSLRAEDTAVYYCAR', ariaLabel:isVhh?'VHH 序列':'重链可变区（VH）序列'})}</div>
+        <div class="form-field" id="vlBox" ${isVhh?'hidden':''}><div class="label required">轻链可变区（VL）</div>${sequenceInputNode({placeholder:'>VL', value:'DIQMTQSPSSLSASVGDRVTITCRASQGISSWLAWYQQKPGKAPKLLIYAASSLQSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQYNSYPYTFGQGTKVEIK', ariaLabel:'轻链可变区（VL）序列'})}</div>
+        <div class="form-field" id="agFasta"><div class="chain-list" id="agChainList">${agChainNode(1, true, 'MHHHHHHSSGVDLGTENLYFQSNAMKLTQLGTVLDFTKKSDGTPVYVLLPPGQSFQFWAQGDLNGKSLKDLMNELGK')}</div><button type="button" class="add-chain" id="addAgChain"><i data-lucide="plus"></i>添加抗原链</button></div>
+      </div>`;
+    }
+
     function dockInfer(key){
       const isVhh = key === 'vhh';
+      const useEntityScheme = key === 'abdock-entity';
       return `<div class="infer-layout">
         <section class="input-pane">${baseInputHeader(false)}
-          <div class="form-field"><div class="label required">${isVhh?'VHH 序列':'重链可变区（VH）'}</div>${sequenceInputNode({id:'vhInput', placeholder:isVhh?'>VHH':'>VH', value:'EVQLVESGGGLVQPGGSLRLSCAASGFTFSSYAMSWVRQAPGKGLEWVSAISGSGGSTYYADSVKGRFTISRDNSKNTLYLQMNSLRAEDTAVYYCAR', ariaLabel:isVhh?'VHH 序列':'重链可变区（VH）序列'})}</div>
-          <div class="form-field" id="vlBox" ${isVhh?'hidden':''}><div class="label required">轻链可变区（VL）</div>${sequenceInputNode({placeholder:'>VL', value:'DIQMTQSPSSLSASVGDRVTITCRASQGISSWLAWYQQKPGKAPKLLIYAASSLQSGVPSRFSGSGSGTDFTLTISSLQPEDFATYYCQQYNSYPYTFGQGTKVEIK', ariaLabel:'轻链可变区（VL）序列'})}</div>
-          <div class="form-field" id="agFasta"><div class="chain-list" id="agChainList">${agChainNode(1, true, 'MHHHHHHSSGVDLGTENLYFQSNAMKLTQLGTVLDFTKKSDGTPVYVLLPPGQSFQFWAQGDLNGKSLKDLMNELGK')}</div><button type="button" class="add-chain" id="addAgChain"><i data-lucide="plus"></i>添加抗原链</button></div>
+          ${isVhh ? '' : `<div class="dock-plan-switch" role="tablist" aria-label="xTrimoAbAgDock 入参方案">
+            <button type="button" class="dock-plan-tab ${useEntityScheme ? '' : 'active'}" data-scheme="legacy" role="tab" aria-selected="${!useEntityScheme}"><b>经典方案</b><span>VH / VL / 抗原链输入</span></button>
+            <button type="button" class="dock-plan-tab ${useEntityScheme ? 'active' : ''}" data-scheme="entity" role="tab" aria-selected="${useEntityScheme}"><b>新方案</b><span>实体类型 + 化学计量</span></button>
+          </div>`}
+          <div id="dockSchemeHost">${useEntityScheme && !isVhh ? entityScheme() : legacyDockScheme(isVhh)}</div>
           <div class="form-field pdb-field" id="agPdb"><div class="pdb-supplement"><div class="pdb-supplement-head"><div><div class="pdb-supplement-title"><i data-lucide="box"></i>抗原 PDB 参考结构 <span class="optional-label">可选</span></div><p class="pdb-supplement-desc">用于补充说明抗原 FASTA 序列的参考结构。</p></div></div><div class="upload pdb-upload" id="pdbUploadBox"><div class="upload-copy"><i data-lucide="upload-cloud"></i><p class="upload-title">拖拽或点击上传 PDB 文件</p><p class="upload-hint">支持 .pdb 单文件。未上传时仍可直接提交序列任务。</p></div></div><div class="file-line pdb-file-line" id="pdbFileLine" hidden><span class="pdb-file-name">${isVhh?'vhhag_reference.pdb':'abag_reference.pdb'}</span><span class="file-actions"><button type="button" class="link" id="removePdbFile">移除</button><i data-lucide="download"></i></span></div></div></div>
           <div style="margin:22px 0;">Email进度通知 <span class="switch"></span></div><button class="generate" id="runDock">生 成</button>
         </section>
@@ -2419,9 +2700,13 @@
       wireDockInputs();
       document.getElementById('runDock').onclick = (e) => {
         e.preventDefault();
-        if (!validateDockSequences(true) || !validateAgChains()) return;
+        const usingEntityScheme = Boolean(document.getElementById('entityScheme'));
+        if (usingEntityScheme) {
+          if (!validateEntities(true)) return;
+        } else if (!validateDockSequences(true) || !validateAgChains()) return;
         document.getElementById('dockOutput').className = '';
-        document.getElementById('dockOutput').innerHTML = `<div class="dock-result-grid"><div class="mol-viewer"><div class="protein-line"></div></div><div class="result-meta"><div class="meta-row"><span>复合物置信度</span><b>0.87</b></div><div class="meta-row"><span>Interface pLDDT</span><b>82.4</b></div><div class="meta-row"><span>输出文件</span><b>complex.pdb</b></div><div class="meta-row"><button class="download"><i data-lucide="download"></i>下载</button></div></div></div>`;
+        const summary = usingEntityScheme ? `<div class="meta-row"><span>输入方案</span><b>实体方案</b></div><div class="meta-row"><span>实体数量</span><b>${document.querySelectorAll('#entityList [data-entity-card]').length}</b></div>` : `<div class="meta-row"><span>输入方案</span><b>经典方案</b></div><div class="meta-row"><span>抗原链数量</span><b>${document.querySelectorAll('[data-chain-card]').length}</b></div>`;
+        document.getElementById('dockOutput').innerHTML = `<div class="dock-result-grid"><div class="mol-viewer"><div class="protein-line"></div></div><div class="result-meta">${summary}<div class="meta-row"><span>复合物置信度</span><b>0.87</b></div><div class="meta-row"><span>Interface pLDDT</span><b>82.4</b></div><div class="meta-row"><span>输出文件</span><b>complex.pdb</b></div><div class="meta-row"><button class="download"><i data-lucide="download"></i>下载</button></div></div></div>`;
         showToast('推理任务已提交');
         refreshIcons();
       };
@@ -2486,6 +2771,53 @@
         .reduce((valid, textarea) => validateSequenceInput(textarea, force) && valid, true);
     }
 
+    function validateEntityCard(card, force=false){
+      const type = card.querySelector('[data-entity-type]').value;
+      const textarea = card.querySelector('[data-entity-sequence]');
+      const stoich = card.querySelector('[data-stoich]');
+      const error = card.querySelector('[data-entity-error]');
+      const counter = card.querySelector('[data-entity-counter]');
+      const value = textarea.value.trim();
+      const tokenLength = entityTokenLength(value, type);
+      const unit = entityUnit(type);
+      let message = '';
+      if (force && !value) message = type === 'ion' || type === 'ligand' ? '请输入实体名称或标识' : 'This field is required';
+      else if (Number(stoich.value) < 1) message = '化学计量需大于 0';
+      else if ((type === 'protein' || type === 'peptide') && value.includes('>')) message = '请去掉序列头';
+      else if (tokenLength > 500 && type !== 'ion' && type !== 'ligand') message = '序列长度不可超过 500';
+      counter.textContent = `${unit}:${tokenLength}/500`;
+      error.textContent = message;
+      error.hidden = !message;
+      card.classList.toggle('has-error', Boolean(message));
+      return !message;
+    }
+
+    function validateEntities(force=false){
+      return [...document.querySelectorAll('#entityList [data-entity-card]')]
+        .reduce((valid, card) => validateEntityCard(card, force) && valid, true);
+    }
+
+    function updateEntityTotal(){
+      const total = [...document.querySelectorAll('#entityList [data-entity-card]')].reduce((sum, card) => {
+        const type = card.querySelector('[data-entity-type]').value;
+        const stoich = Math.max(1, Number(card.querySelector('[data-stoich]').value || 1));
+        const value = card.querySelector('[data-entity-sequence]').value;
+        return sum + entityTokenLength(value, type) * stoich;
+      }, 0);
+      const totalNode = document.getElementById('entityTokenTotal');
+      if (totalNode) totalNode.textContent = `当前 Token 数：${total} / 2048`;
+    }
+
+    function renumberEntities(){
+      document.querySelectorAll('#entityList [data-entity-card]').forEach((card, index) => {
+        const number = index + 1;
+        card.querySelector('.entity-title').textContent = `实体 ${number}`;
+        card.querySelector('[data-remove-entity]').setAttribute('aria-label', `删除实体 ${number}`);
+        card.querySelector('[data-stoich]').setAttribute('aria-label', `实体 ${number} 化学计量`);
+        card.querySelector('[data-entity-sequence]').setAttribute('aria-label', `实体 ${number} 序列或描述`);
+      });
+    }
+
     function renumberAgChains(){
       document.querySelectorAll('[data-chain-card]').forEach((card, index) => {
         const title = card.querySelector('.chain-title');
@@ -2497,16 +2829,91 @@
       });
     }
 
+    function bindEntityCard(card){
+      const typeSelect = card.querySelector('[data-entity-type]');
+      const textarea = card.querySelector('[data-entity-sequence]');
+      const stoich = card.querySelector('[data-stoich]');
+      const refresh = () => {
+        textarea.placeholder = entityPlaceholder(typeSelect.value);
+        validateEntityCard(card, false);
+        updateEntityTotal();
+      };
+      typeSelect.addEventListener('change', refresh);
+      textarea.addEventListener('input', refresh);
+      stoich.addEventListener('input', refresh);
+      card.querySelector('[data-remove-entity]')?.addEventListener('click', () => {
+        if (card.querySelector('[data-remove-entity]').disabled) return;
+        card.remove();
+        renumberEntities();
+        updateEntityTotal();
+      });
+      refresh();
+    }
+
+    function wireEntityScheme(){
+      const list = document.getElementById('entityList');
+      const add = document.getElementById('addEntity');
+      if (!list || !add) return;
+      list.querySelectorAll('[data-entity-card]').forEach(bindEntityCard);
+      add.onclick = () => {
+        const next = list.querySelectorAll('[data-entity-card]').length + 1;
+        list.insertAdjacentHTML('beforeend', entityCardNode(next, { type: 'protein', stoich: 1, value: '' }, true));
+        const card = list.querySelector('[data-entity-card]:last-child');
+        bindEntityCard(card);
+        renumberEntities();
+        refreshIcons();
+        card.querySelector('[data-entity-sequence]').focus();
+      };
+      updateEntityTotal();
+    }
+
     function wireDockInputs(){
       const list = document.getElementById('agChainList');
       const add = document.getElementById('addAgChain');
       const upload = document.getElementById('pdbUploadBox');
       const fileLine = document.getElementById('pdbFileLine');
       const removeFile = document.getElementById('removePdbFile');
+      document.querySelectorAll('.dock-plan-tab').forEach(tab => {
+        tab.onclick = () => {
+          const host = document.getElementById('dockSchemeHost');
+          const useEntity = tab.dataset.scheme === 'entity';
+          document.querySelectorAll('.dock-plan-tab').forEach(item => {
+            const active = item === tab;
+            item.classList.toggle('active', active);
+            item.setAttribute('aria-selected', String(active));
+          });
+          host.innerHTML = useEntity ? entityScheme() : legacyDockScheme(false);
+          useEntity ? wireEntityScheme() : wireLegacyDockScheme();
+          refreshIcons();
+        };
+      });
+      wireEntityScheme();
+      wireLegacyDockScheme();
+      if (upload) {
+        upload.onclick = () => {
+          if (!fileLine.hidden) return;
+          fileLine.hidden = false;
+          upload.classList.add('disabled');
+          showToast('已添加 PDB 参考结构（原型示意）');
+        };
+      }
+      if (removeFile) {
+        removeFile.onclick = (e) => {
+          e.preventDefault();
+          fileLine.hidden = true;
+          upload.classList.remove('disabled');
+        };
+      }
+    }
+
+    function wireLegacyDockScheme(){
+      const list = document.getElementById('agChainList');
+      const add = document.getElementById('addAgChain');
       document.querySelectorAll('#inferContent [data-sequence-input]').forEach(textarea => {
         textarea.addEventListener('input', () => validateSequenceInput(textarea, false));
         validateSequenceInput(textarea, false);
       });
+      if (!list || !add) return;
       const bindChain = (card) => {
         const textarea = card.querySelector('[data-ag-chain]');
         textarea.addEventListener('input', () => validateChain(card, false));
@@ -2525,17 +2932,6 @@
         renumberAgChains();
         refreshIcons();
         card.querySelector('[data-ag-chain]').focus();
-      };
-      upload.onclick = () => {
-        if (!fileLine.hidden) return;
-        fileLine.hidden = false;
-        upload.classList.add('disabled');
-        showToast('已添加 PDB 参考结构（原型示意）');
-      };
-      removeFile.onclick = (e) => {
-        e.preventDefault();
-        fileLine.hidden = true;
-        upload.classList.remove('disabled');
       };
     }
 
